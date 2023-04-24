@@ -1,8 +1,22 @@
 import { Module } from '@nestjs/common';
-import { LearningToolsModule } from './learning-tools/learning-tools.module';
+import { AppController } from './app.controller.js';
+import { AppService } from './app.service.js';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { textbooksEntity } from './learningTools.js';
+import { learningToolsModel } from './learningTools.module.js'; 
 
 @Module({
-  imports: [LearningToolsModule],
-  
+  imports: [textbooksEntity,TypeOrmModule.forRoot({
+    type: 'mysql',
+    host: 'localhost',
+    port: 3306,
+    username: 'root',
+    password: '',
+    database: 'learningTools',
+    entities: [textbooksEntity],
+    synchronize: false,
+  }), learningToolsModel],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
