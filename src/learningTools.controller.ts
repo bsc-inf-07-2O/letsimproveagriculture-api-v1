@@ -1,9 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Res  } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Res, UseGuards, UseInterceptors  } from '@nestjs/common';
 import { learningToolsservice} from './learningTools.service';
 import { textbooksEntity } from 'src/learningTools';
+import { RolesGuard } from './Guards/roles.guards';
+import { LoggingInterceptor } from './interceptors/logging.interceptors';
 
 
 @Controller('learningTools')
+@UseGuards(RolesGuard)
+@UseInterceptors(LoggingInterceptor)
+
 export class learningToolsController {
     constructor (private learningToolsService:learningToolsservice) {
 }
@@ -16,7 +21,7 @@ async fillAll() {
 
 
 @Get(":ID")
-async findOne (@Param('') ID:number){
+async findOne (@Param('ID', ParseIntPipe) ID:number){
     const response = await this.learningToolsService.findOne(ID);
     return response;
 }
@@ -28,7 +33,7 @@ async findOne (@Param('') ID:number){
  }
 
  @Put(":ID")
- async update (@Param() ID: number, @Body() createUserDto: textbooksEntity) {
+ async update (@Param('ID', ParseIntPipe) ID: number, @Body() createUserDto: textbooksEntity) {
     const response = await this.learningToolsService.update(ID,createUserDto)
     return response;
 }
