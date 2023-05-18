@@ -9,14 +9,14 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
 
   const config = new DocumentBuilder()
-  .setTitle('learningTools')
-  .setDescription('the learningtools API description')
+  .setTitle('LETSIMPROVEAFRICULTURE-API')
+  .setDescription('Agriculture API that improve agriculture as a subject mostly in secondary school')
   .setVersion('1.0.4')
   .addTag('')
   .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.listen(4000);
 }
 bootstrap();
