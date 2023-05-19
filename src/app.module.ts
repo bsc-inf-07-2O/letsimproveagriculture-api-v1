@@ -24,17 +24,16 @@ import { User } from './users/entities/user.entity.js';
     username: 'root',
     password: '',
     database: 'letsimproveagriculture',
-    entities: [textbooksEntity, PastPapersEntity, tutorialsEntity,User ],
+    entities: [textbooksEntity, 
+      PastPapersEntity, 
+      tutorialsEntity,
+      User ],
     synchronize: true,
-  }), learningToolsModel, UsersModule, UsersModule],
+  }), learningToolsModel, 
+    UsersModule,
+   UsersModule],
   controllers: [AppController],
   providers: [AppService],
 })
 
-export class AppModule implements NestModule{
-   configure(consumer: MiddlewareConsumer){
-    consumer.apply(ApiTokenCheckMiddleware).forRoutes({path: '*', method: RequestMethod.ALL});
-  
- 
-   }
-}
+export class AppModule{}
