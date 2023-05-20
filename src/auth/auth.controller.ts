@@ -6,7 +6,9 @@ import { RolesGuard } from "src/Guards/roles.guards";
 import { Roles } from "./roles.decorators";
 import { Body, Controller, Get, Post,Request,UseGuards } from "@nestjs/common";
 import { Role } from "./enums/role.enum";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('auth')
 @Controller('users/auth')
 export class AuthController{
     constructor(private readonly authService: AuthService, private readonly userService: UsersService){

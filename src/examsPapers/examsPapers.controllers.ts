@@ -1,11 +1,12 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards, UseInterceptors } from "@nestjs/common";
 import { RolesGuard } from "src/Guards/roles.guards";
 import { LoggingInterceptor } from "src/interceptors/logging.interceptors";
 import { examsPapersservice } from "./examsPapers.service";
-import { PastPapersEntity } from "./examsPapers";
+import { Papers } from "./examsPapers";
+import { ApiTags } from "@nestjs/swagger";
 
 
-
+@ApiTags('examsPapers')
 @Controller('examsPapers')
 @UseGuards(RolesGuard)
 @UseInterceptors(LoggingInterceptor)
@@ -28,22 +29,23 @@ async findOne (@Param('ID', ParseIntPipe) ID:number){
 }
 
  @Post()
-    async create(@Body() createUserDto: PastPapersEntity){
+    async create(@Body() createUserDto: Papers){
         const response = await this.examsPapersService.create(createUserDto);
         return response;
  }
 
  @Put(":ID")
- async update (@Param('ID', ParseIntPipe) ID: number, @Body() createUserDto: PastPapersEntity) {
+ async update (@Param('ID', ParseIntPipe) ID: number, @Body() createUserDto: Papers) {
     const response = await this.examsPapersService.update(ID,createUserDto)
     return response;
 }
 
-@Delete()
-async delete (@Body() ID:number) {
-    const response = await this.examsPapersService.remove(ID);
-    return response;
-}
+@Delete(':ID')
+  async remove(@Param('ID') ID:number) {
+   const user = await this.examsPapersService.findOne(ID);
+  if(user) await this.examsPapersService.deleteUser(ID)
+  else throw new HttpException('not found!', HttpStatus.BAD_REQUEST)
+ }
 
 
 }

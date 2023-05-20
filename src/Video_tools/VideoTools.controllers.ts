@@ -1,11 +1,12 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards, UseInterceptors } from "@nestjs/common";
 import { VideoToolsservice} from './VideoTools.service';
 import { RolesGuard } from "src/Guards/roles.guards";
 import { LoggingInterceptor } from "src/interceptors/logging.interceptors";
 import { tutorialsEntity } from "./VideoTools";
+import { ApiTags } from "@nestjs/swagger";
 
 
-
+@ApiTags('VideoTools')
 @Controller('VideoTools')
 @UseGuards(RolesGuard)
 @UseInterceptors(LoggingInterceptor)
@@ -39,11 +40,18 @@ async findOne (@Param('ID', ParseIntPipe) ID:number){
     return response;
 }
 
-@Delete()
-async delete (@Body() ID:number) {
-    const response = await this.VideoToolsService.remove(ID);
-    return response;
-}
+//@Delete()
+//async delete (@Body() ID:number) {
+    //const response = await this.VideoToolsService.remove(ID);
+    //return response;
+//}
+
+@Delete(':ID')
+  async remove(@Param('ID') ID:number) {
+   const user = await this.VideoToolsService.findOne(ID);
+  if(user) await this.VideoToolsService.deleteUser(ID)
+  else throw new HttpException('not found!', HttpStatus.BAD_REQUEST)
+  }
 
 
 }

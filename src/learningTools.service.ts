@@ -29,9 +29,8 @@ async update (ID: number, user: textbooksEntity) {
     await this.learningToolsRepository.update(ID,user)
     }
 
-    async remove (ID: number): Promise<void> {
-        await this.learningToolsRepository.delete(ID);
-
-    }
+deleteUser(id: number){
+    return this.learningToolsRepository.delete(id);
+ }
 }
 

@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -28,7 +30,7 @@ export class UsersController {
 
   @Get(':id')
   show(@Param('id') id: number) {
-    return this.usersService.showById(+id);
+    return this.usersService.findOne(id);
   }
 
   @Patch(':id')
@@ -37,7 +39,9 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id:number) {
-   return this.usersService.remove(+id);
+  async remove(@Param('id') id:number) {
+   const user = await this.usersService.findOne(id);
+  if(user) await this.usersService.deleteUser(id)
+  else throw new HttpException('not found!', HttpStatus.BAD_REQUEST)
   }
 }

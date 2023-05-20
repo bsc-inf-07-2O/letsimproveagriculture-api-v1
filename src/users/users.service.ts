@@ -14,15 +14,18 @@ export class UsersService {
     UpdateUser: any;
   constructor(@InjectRepository(User) private usersRepository:Repository<User>){
   }
+
   async addUser(createUserDto:CreateUserDto):Promise<User>{
     const newUser = this.usersRepository.create(createUserDto);
     newUser.password = await bcrypt.hash(newUser.password,255);
     return newUser.save();
   }
+
   findAll(): Promise<User[]> {
-    return this.usersRepository.find(); 
-    }
-    findOne (id:number): Promise<any> {
+     return this.usersRepository.find(); 
+  }
+
+  findOne (id:number): Promise<any> {
       return this.usersRepository.findOne({where:{id}});
   }
 
@@ -36,17 +39,15 @@ export class UsersService {
     delete user.password
     return user;
 }
+
 async findById(id: number){
   return await User.findOne(id);
 
 }
 
-// async findByEmail(email: string){
-//   return await User.findOne({
-//     where:{
-//       email: email
-//     }
-//   })
+deleteUser(id: number){
+    return this.usersRepository.delete({id});
+ }
 }
 
   

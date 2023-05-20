@@ -29,10 +29,9 @@ async update (ID: number, user: tutorialsEntity) {
     await this.VideoToolsRepository.update(ID,user)
     }
 
-    async remove (ID: number): Promise<void> {
-        await this.VideoToolsRepository.delete(ID);
-
-    }
+deleteUser(id: number){
+        return this.VideoToolsRepository.delete(id);
+     }
 }
 
 
