@@ -26,7 +26,7 @@ import entities from './entity/index.js';
     password: 'D9aT2ULg87',
     database: 'sql8624780',
     entities: entities,
-    synchronize: false
+    synchronize: true
   }), learningToolsModel, 
     UsersModule,
    UsersModule],
