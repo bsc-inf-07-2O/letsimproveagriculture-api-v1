@@ -20,11 +20,11 @@ import entities from './entity/index.js';
     TypeOrmModule.forRoot({
     type: 'mysql',
     // autoLoadEntities: true,
-    host: 'localhost',
+    host: 'sql8.freesqldatabase.com',
     port: 3306,
-    username: 'root',
-    password: '',
-    database: 'letsimproveagriculture',
+    username: 'sql8624780',
+    password: 'D9aT2ULg87',
+    database: 'sql8624780',
     entities: entities,
     synchronize: true
   }), learningToolsModel, 
